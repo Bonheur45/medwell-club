@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us · MEDWELL Club</title>
+<meta name="description" content="MEDWELL Club is a medical-student wellbeing initiative. The people caring for the sick deserve care too.">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .belief-list { margin-top: 20px; }
+  .belief-row { display:grid; grid-template-columns: 46px 1fr; gap: 20px; padding: 24px 0; border-top:1px solid var(--line); }
+  .belief-row:last-child { border-bottom: 1px solid var(--line); }
+  .belief-row .n { font-family: var(--font-mono); font-size:13px; color: var(--green-deep); }
+  .belief-row p { margin:0; font-size:16.5px; max-width: 62ch; }
+
+  .approach-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); border:1px solid var(--line); margin-top: 40px; }
+  .approach-cell { padding: 30px 22px; border-right:1px solid var(--line); }
+  .approach-cell:last-child{ border-right:none; }
+  .approach-cell .lbl { font-family:var(--font-display); font-weight:800; font-size:18px; }
+  .approach-cell .desc { color:var(--ink-soft); font-size:13.5px; margin-top:8px; }
+  @media (max-width:880px){ .approach-grid{ grid-template-columns: 1fr 1fr; } .approach-cell{ border-bottom:1px solid var(--line);} }
+  @media (max-width:520px){ .approach-grid{ grid-template-columns: 1fr; } }
+
+  .logos-row { display:flex; align-items:center; gap: 50px; margin-top: 40px; flex-wrap:wrap; }
+  .logos-row img { height: 46px; width:auto; opacity:0.9; }
+  /* MEDSAR's mark is a small emblem with a legend baked into the artwork
+     itself (the "Medical Students' Association..." text), so at the same
+     46px row height as the two wordmark logos it reads as a blur. Give it
+     its own taller box (proportions untouched: width auto, contain-style
+     scaling) so the legend is actually legible next to the others. */
+  .logos-row img.medsar-mark { height: 128px; }
+  @media (max-width: 520px) {
+    .logos-row img.medsar-mark { height: 104px; }
+  }
+
+  /* Hero headline: must always render on a single line (never wrap),
+     across every viewport. font-size is derived directly from the
+     site's real available content width (container max-width minus
+     the actual responsive gutters), divided by the measured
+     character-width of this exact headline in Manrope ExtraBold —
+     so the text is mathematically guaranteed to fit, with a small
+     safety margin, rather than relying on guessed breakpoints. */
+  .page-intro h1.fit-line {
+    font-size: clamp(1px, calc((min(100vw, 1320px) - 2 * clamp(20px, 4vw, 64px)) / 17), 72px);
+    letter-spacing: -0.015em;
+    white-space: nowrap;
+  }
+
+  .why-grid { display:grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items:start; }
+  @media (max-width: 780px) {
+    .why-grid { grid-template-columns: 1fr; gap: 28px; }
+  }
+
+  /* Africa CDC statistic, an editorially strong statement inline within
+     the "Why we exist" story rather than a separate stat-card. */
+  .stat-moment {
+    border-top: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line-strong);
+    padding: 28px 0;
+    margin: 26px 0;
+  }
+  .stat-moment .figure {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(40px, 6vw, 64px);
+    line-height: 1;
+    color: var(--green-deep);
+    letter-spacing: -0.01em;
+  }
+  .stat-moment p {
+    margin-top: 10px;
+    color: var(--ink-soft);
+    font-size: 14.5px;
+    line-height: 1.6;
+    max-width: 46ch;
+  }
+  .stat-moment cite {
+    display: block;
+    margin-top: 10px;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-style: normal;
+  }
+
+  /* "We are Contributors to" — two editorial media contributions.
+     A quiet centre rule (not a card border) separates them on desktop;
+     on mobile it becomes a simple top rule between stacked entries.
+     The two entries are typographically distinct on purpose (a pull
+     line for the magazine, a running paragraph for the podcast) so
+     they never read as matching, generic tiles. */
+  .contributors-grid { display:grid; grid-template-columns: 1fr 1px 1fr; gap: 64px; margin-top: 40px; align-items: start; }
+
+  /* Closing line: understated sign-off, not a heading or card — no
+     divider, just a step up in size so it reads as a natural close to
+     the two entries above it. Wraps freely on narrow screens; from
+     laptop width up it holds to a single line, sized so the full
+     sentence fits the container without wrapping or shrinking to an
+     illegible size (font-size derived from available content width
+     divided by this exact sentence's measured character-width in
+     Inter Regular, same technique as the page-intro fit-line headline). */
+  .contributors-closing {
+    margin-top: 40px;
+    color: var(--ink-soft);
+    font-size: clamp(14px, 2.1vw, 16px);
+    line-height: 1.6;
+    max-width: 62ch;
+  }
+  @media (min-width: 1024px) {
+    .contributors-closing {
+      white-space: nowrap;
+      max-width: none;
+      margin-top: 56px;
+      font-size: clamp(1px, calc((min(100vw, 1320px) - 2 * var(--gutter)) / 72), 16.5px);
+    }
+  }
+  .contributors-divider { background: var(--line-strong); align-self: stretch; }
+
+  .contributor-kicker { display:flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft); }
+  .contributor-kicker .n { color:var(--green-deep); }
+  .contributor-name { font-family:var(--font-display); font-weight:800; font-size:clamp(21px, 2.3vw, 28px); letter-spacing:-0.01em; margin-top:16px; }
+  .contributor-tagline { font-family:var(--font-display); font-weight:700; color:var(--green-deep); font-size:18.5px; line-height:1.45; max-width:28ch; margin-top:14px; }
+  .contributor-desc { color:var(--ink-soft); font-size:15px; line-height:1.75; max-width:46ch; margin-top:14px; }
+
+  .contributor-link {
+    display:inline-flex; align-items:center; gap:9px; margin-top:28px;
+    font-family:var(--font-mono); font-size:12.5px; letter-spacing:.05em;
+    color:var(--green-deep); padding-bottom:3px; border-bottom:1px solid var(--green-deep);
+    transition: gap 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  }
+  .contributor-link:hover { gap:15px; color:var(--ink); border-color:var(--ink); }
+  .contributor-link .ext-icon { font-size:12px; display:inline-block; transition: transform 0.25s ease; }
+  .contributor-link:hover .ext-icon { transform: translate(2px, -2px); }
+
+  @media (max-width: 780px) {
+    .contributors-grid { grid-template-columns: 1fr; gap:0; margin-top: 40px; }
+    .contributors-divider { display:none; }
+    .contributor ~ .contributor { border-top:1px solid var(--line); margin-top:36px; padding-top:36px; }
+  }
+
+  /* This section's own bottom padding plus the footer's own top padding
+     already give ample, intentional breathing room; the site-footer's
+     default margin-top (160px) was stacking a third gap on top of those
+     two. Removed here only. */
+  .site-footer { margin-top: 0; }
+  @media (max-width: 520px) { .site-footer { margin-top: 0; } }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="brand"><img src="assets/logos/medwell-logo.png" alt="MEDWELL Club"><span>MEDWELL CLUB</span></a>
+    <nav class="main-nav" id="main-nav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="reports.html">Chapter Reports</a></li>
+        <li><a href="#our-media">Our Media</a></li>
+        <li><a href="about.html" aria-current="page">About Us</a></li>
+      </ul>
+      <a href="index.html#get-involved" class="btn btn-solid join-btn">GET INVOLVED</a>
+      <div class="nav-social">
+        <span class="social-label">Follow us</span>
+        <div class="social-icons">
+          <a href="https://x.com/medwell_medsar" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="MEDWELL Club on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          <a href="https://www.instagram.com/medwell250/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="MEDWELL Club on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.012-3.584.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM12 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+          <a href="https://www.youtube.com/@THEMEDWELLPODCAST" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="MEDWELL Club on YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23.498 6.186a2.994 2.994 0 0 0-2.106-2.117C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.392.524A2.994 2.994 0 0 0 .502 6.186 31.26 31.26 0 0 0 0 12a31.26 31.26 0 0 0 .502 5.814 2.994 2.994 0 0 0 2.106 2.117c1.887.524 9.392.524 9.392.524s7.505 0 9.392-.524a2.994 2.994 0 0 0 2.106-2.117A31.26 31.26 0 0 0 24 12a31.26 31.26 0 0 0-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+        </div>
+      </div>
+    </nav>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav"><span></span></button>
+  </div>
+</header>
+
+<main id="main">
+  <div class="page-intro">
+    <div class="wrap">
+      <span class="eyebrow">About Us</span>
+      <h1 class="fit-line">We can't pour from an empty cup.</h1>
+      <p class="lede" style="margin-top:22px;">Healthcare providers' health matters too.</p>
+    </div>
+  </div>
+
+  <section class="section-tight">
+    <div class="wrap why-grid">
+      <div>
+        <span class="eyebrow">Why we exist</span>
+        <p class="pull" style="margin-top:20px;">The people caring for the sick deserve care too.</p>
+      </div>
+      <div>
+        <p style="color:var(--ink-soft); font-size:16.5px;">MEDWELL Club focuses on the wellbeing of medical students and healthcare professionals, because the people caring for the sick deserve care too. We create spaces for wellness activities, sports, peer connection, mental and emotional wellbeing, medical education, research, advocacy, professional development, digital initiatives and interests beyond medicine.</p>
+        <div class="stat-moment">
+          <div class="figure">&gt;25% / 3%</div>
+          <p>Africa bears more than a quarter of the global disease burden while accounting for only about 3% of the global health workforce. Burnout in this system is not a badge of honor, it is a threat to patient safety, staff retention and the sustainability of healthcare systems.</p>
+          <cite>Africa CDC</cite>
+        </div>
+        <p style="color:var(--ink-soft); font-size:16.5px;">MEDWELL Club isn't simply organizing occasional events. It's building a culture of healthier medical education and healthier healthcare professionals.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight" style="background:var(--green-wash);">
+    <div class="wrap">
+      <span class="eyebrow eyebrow-heading">What we believe</span>
+      <div class="belief-list">
+        <div class="belief-row"><span class="n">01</span><p>Self-care should begin during medical school, not after graduation.</p></div>
+        <div class="belief-row"><span class="n">02</span><p>Wellbeing is connected to patient safety and professional sustainability.</p></div>
+        <div class="belief-row"><span class="n">03</span><p>Students need spaces for movement, reflection, connection and creativity.</p></div>
+        <div class="belief-row"><span class="n">04</span><p>Medical students are more than their academic and clinical responsibilities.</p></div>
+        <div class="belief-row"><span class="n">05</span><p>Individual self-care matters, but supportive institutions and systems matter too.</p></div>
+        <div class="belief-row"><span class="n">06</span><p>Healthier students are better positioned to become healthier healthcare professionals.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap">
+      <span class="eyebrow eyebrow-heading">Our approach</span>
+      <div class="approach-grid">
+        <div class="approach-cell"><div class="lbl">Move</div><div class="desc">Sports, stretching and physical wellbeing.</div></div>
+        <div class="approach-cell"><div class="lbl">Connect</div><div class="desc">Peer connection, community and shared reflection.</div></div>
+        <div class="approach-cell"><div class="lbl">Reflect</div><div class="desc">Mental, emotional, spiritual and personal wellbeing.</div></div>
+        <div class="approach-cell"><div class="lbl">Create</div><div class="desc">Interests, talents and identity beyond medicine.</div></div>
+        <div class="approach-cell"><div class="lbl">Learn</div><div class="desc">Medical education, self-care and professional wellbeing.</div></div>
+        <div class="approach-cell"><div class="lbl">Research</div><div class="desc">Research for wellness-related evidence, learning and inquiry.</div></div>
+        <div class="approach-cell"><div class="lbl">Advocate</div><div class="desc">Advocate for healthier medical education and healthier healthcare professionals.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight" id="our-media" style="background:var(--green-wash);">
+    <div class="wrap">
+      <span class="eyebrow eyebrow-heading">We are Contributors to:</span>
+      <div class="contributors-grid">
+        <article class="contributor">
+          <span class="contributor-kicker"><span class="n">01</span> Health Media Platform</span>
+          <h3 class="contributor-name">Medwell Health Magazine</h3>
+          <p class="contributor-tagline">Africa's Leading Youth-Driven Multilingual Health Media Platform.</p>
+          <a class="contributor-link" href="https://www.medwellnews.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Medwell Health Magazine (opens in a new tab)">medwellnews.com <span class="ext-icon" aria-hidden="true">↗</span></a>
+        </article>
+        <div class="contributors-divider" aria-hidden="true"></div>
+        <article class="contributor">
+          <span class="contributor-kicker"><span class="n">02</span> Podcast</span>
+          <h3 class="contributor-name">Medwell Podcast</h3>
+          <p class="contributor-desc">Welcome to Medwell Podcast. We break down the topics that matter most, wellness, first aid, sexual and reproductive health, and the biggest trends in health news, so you always know what's real, what's helpful, and what's new. Empowering you to live smarter, healthier and more confidently.</p>
+          <a class="contributor-link" href="https://www.youtube.com/@THEMEDWELLPODCAST" target="_blank" rel="noopener noreferrer" aria-label="Watch Medwell Podcast on YouTube (opens in a new tab)">YouTube · @THEMEDWELLPODCAST <span class="ext-icon" aria-hidden="true">↗</span></a>
+        </article>
+      </div>
+      <p class="contributors-closing">Our Medwell Club family volunteers as writers, editorial team members, hosts and speakers on these health media platforms.</p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap">
+      <span class="eyebrow eyebrow-heading">Supported by</span>
+      <div class="logos-row">
+        <img src="assets/logos/medwell-logo.png" alt="MEDWELL Initiative">
+        <img src="assets/logos/imegh-logo.png" alt="IMEGH Health">
+        <img src="assets/logos/medsar-logo.png" alt="Medical Students' Association of Rwanda (MEDSAR)" class="medsar-mark">
+      </div>
+    </div>
+  </section>
+
+  <section class="involve-section" id="community" aria-labelledby="involve-title">
+    <div class="wrap involve-grid">
+      <div class="involve-intro reveal">
+        <span class="eyebrow" id="involve-title">Get Involved</span>
+        <h2 class="involve-heading">Join us. Support us. Belong to MEDWELL Club.</h2>
+        <p class="involve-lede">There's a place in MEDWELL Club at every stage of the journey, as a student, a practicing professional, or simply someone who believes healthcare providers deserve care too.</p>
+        <div class="involve-cta">
+          <a class="btn btn-ghost-light" href="#community" data-open-involve>Get Involved</a>
+          <a class="link-arrow on-dark" href="reports.html">Read Chapter Reports <span class="a">→</span></a>
+        </div>
+      </div>
+      <div class="involve-ways reveal">
+        <button type="button" class="involve-row" data-open-involve data-role="students">
+          <span class="involve-num">01</span>
+          <span class="involve-text">
+            <span class="involve-label">Students</span>
+            <span class="involve-desc">Medical and health-sciences students building healthier habits together.</span>
+          </span>
+          <span class="a" aria-hidden="true">→</span>
+        </button>
+        <button type="button" class="involve-row" data-open-involve data-role="professionals">
+          <span class="involve-num">02</span>
+          <span class="involve-text">
+            <span class="involve-label">Professionals</span>
+            <span class="involve-desc">Doctors and healthcare professionals sharing time, mentorship and expertise.</span>
+          </span>
+          <span class="a" aria-hidden="true">→</span>
+        </button>
+        <button type="button" class="involve-row" data-open-involve data-role="supporters">
+          <span class="involve-num">03</span>
+          <span class="involve-text">
+            <span class="involve-label">Supporters</span>
+            <span class="involve-desc">Donors and contributors backing a healthier culture of medical education.</span>
+          </span>
+          <span class="a" aria-hidden="true">→</span>
+        </button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">MEDWELL CLUB</div>
+        <p class="footer-statement">The people caring for the sick deserve care too. A living archive of MEDWELL Club's journey toward a healthier culture of medical education.</p>
+        <div class="footer-social">
+          <span class="social-label">Follow us</span>
+          <div class="social-icons">
+            <a href="https://x.com/medwell_medsar" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="MEDWELL Club on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+            <a href="https://www.instagram.com/medwell250/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="MEDWELL Club on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.012-3.584.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM12 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+          <a href="https://www.youtube.com/@THEMEDWELLPODCAST" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="MEDWELL Club on YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23.498 6.186a2.994 2.994 0 0 0-2.106-2.117C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.392.524A2.994 2.994 0 0 0 .502 6.186 31.26 31.26 0 0 0 0 12a31.26 31.26 0 0 0 .502 5.814 2.994 2.994 0 0 0 2.106 2.117c1.887.524 9.392.524 9.392.524s7.505 0 9.392-.524a2.994 2.994 0 0 0 2.106-2.117A31.26 31.26 0 0 0 24 12a31.26 31.26 0 0 0-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Explore</h4><ul><li><a href="reports.html">Chapter Reports</a></li></ul></div>
+      <div class="footer-col"><h4>Organization</h4><ul><li><a href="about.html">About Us</a></li><li><a href="about.html#community" data-open-involve>Join MEDWELL Club</a></li></ul></div>
+      <div class="footer-col"><h4>Chapter 01</h4><ul><li><a href="august-2026-chapter-report.html">August 2026</a></li><li><a href="august-2026-chapter-report.html">August 2026 Chapter Report</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 MEDWELL CLUB. Wellbeing for the people caring for the sick.</span><span>University of Rwanda</span></div>
+  </div>
+</footer>
+<script src="js/nav.js"></script>
+
+<!-- GET INVOLVED MODAL -->
+<div class="gi-modal" id="involve-modal" aria-hidden="true">
+  <div class="gi-modal-backdrop" data-close-involve></div>
+  <div class="gi-modal-panel" role="dialog" aria-modal="true" aria-labelledby="gi-modal-title">
+    <button class="gi-modal-close" type="button" data-close-involve aria-label="Close">✕</button>
+
+    <div class="gi-step" data-gi-step="ways">
+      <span class="eyebrow" style="color:var(--green-deep);">Get Involved</span>
+      <h2 id="gi-modal-title" class="gi-modal-heading">Join us. Support us. Belong to MEDWELL Club.</h2>
+      <p class="gi-modal-lede">There's a place in MEDWELL Club at every stage of the journey, as a student, a practicing professional, or simply someone who believes healthcare providers deserve care too.</p>
+      <div class="gi-modal-ways">
+        <button class="gi-way" type="button" data-gi-role="students">
+          <span class="gi-way-num">01</span>
+          <span><span class="gi-way-label">Students</span><span class="gi-way-desc">Medical and health-sciences students building healthier habits together.</span></span>
+          <span class="gi-way-arrow" aria-hidden="true">→</span>
+        </button>
+        <button class="gi-way" type="button" data-gi-role="professionals">
+          <span class="gi-way-num">02</span>
+          <span><span class="gi-way-label">Professionals</span><span class="gi-way-desc">Doctors and healthcare professionals sharing time, mentorship and expertise.</span></span>
+          <span class="gi-way-arrow" aria-hidden="true">→</span>
+        </button>
+        <button class="gi-way" type="button" data-gi-role="supporters">
+          <span class="gi-way-num">03</span>
+          <span><span class="gi-way-label">Supporters</span><span class="gi-way-desc">Donors and contributors backing a healthier culture of medical education.</span></span>
+          <span class="gi-way-arrow" aria-hidden="true">→</span>
+        </button>
+      </div>
+      <div class="gi-modal-cta">
+        <button class="btn btn-solid" type="button" data-gi-role="general">Email Us</button>
+        <a class="link-arrow" href="reports.html">Read Chapter Reports <span class="a">→</span></a>
+      </div>
+    </div>
+
+    <div class="gi-step" data-gi-step="next" hidden>
+      <button class="gi-back" type="button" data-gi-back><span aria-hidden="true">←</span> Back</button>
+      <span class="eyebrow" style="color:var(--green-deep);">Get Involved — <span data-gi-role-eyebrow>Students</span></span>
+      <h2 id="gi-modal-title-next" class="gi-modal-heading" data-gi-role-heading>Get involved as a student.</h2>
+      <p class="gi-modal-lede" data-gi-role-lede>Join the medical and health-sciences students building healthier habits together.</p>
+      <div class="gi-next-actions">
+        <a class="gi-next-action" data-gi-mailto href="mailto:mwizerwabonheur45@gmail.com">
+          <span class="gi-next-action-icon" aria-hidden="true">✉</span>
+          <span><span class="gi-next-action-label">Email us</span><span class="gi-next-action-desc">Opens your email app with a message ready to personalize.</span></span>
+          <span class="gi-way-arrow" aria-hidden="true">→</span>
+        </a>
+        <button class="gi-next-action" type="button" data-gi-copy>
+          <span class="gi-next-action-icon" aria-hidden="true">⧉</span>
+          <span><span class="gi-next-action-label" data-gi-copy-label>Copy our email address</span><span class="gi-next-action-desc">mwizerwabonheur45@gmail.com</span></span>
+          <span class="gi-way-arrow" aria-hidden="true">→</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

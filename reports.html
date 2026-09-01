@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter Reports · MEDWELL Club</title>
+<meta name="description" content="MEDWELL Club's Chapter Report archive. Read monthly Chapter Reports online or download the corresponding PDF report.">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .report-entry {
+    display:grid;
+    grid-template-columns:1fr 1.08fr;
+    gap:0;
+    border:1px solid var(--line);
+    margin-top:46px;
+    background:var(--white);
+  }
+  .re-image { position:relative; min-height:620px; overflow:hidden; }
+  .re-image img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; }
+  .re-text { padding:clamp(34px,5vw,68px); display:flex; flex-direction:column; justify-content:center; gap:20px; }
+  .re-num { font-family:var(--font-mono); font-size:13px; color:var(--green-deep); letter-spacing:.12em; }
+  .re-month { font-family:var(--font-display); font-weight:800; font-size:clamp(34px,4.5vw,54px); line-height:1; margin-top:10px; }
+  .re-motif { color:var(--green-deep); font-size:clamp(18px,2vw,23px); margin-top:20px; }
+  .re-title { font-family:var(--font-display); font-weight:800; font-size:clamp(24px,2.7vw,32px); }
+  .re-theme { color:var(--ink-soft); margin-top:8px; max-width:42ch; }
+  .re-meta { margin-top:28px; }
+  .re-actions {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px 24px;
+    margin-top:24px;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--green-deep);
+  }
+  .re-read { display:inline-flex; align-items:center; gap:8px; color:var(--green-deep); font-family:var(--font-mono); font-size:13px; letter-spacing:.08em; text-transform:uppercase; }
+  .re-read .a { font-size:18px; }
+  .re-download {
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    color:var(--ink-soft);
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    transition:color 0.2s ease;
+  }
+  .re-download:hover, .re-download:focus-visible { color:var(--green-deep); }
+  .re-download .a { font-size:15px; }
+  .archive-note { margin-top:36px; color:var(--ink-soft); font-size:13px; }
+  @media(max-width:900px){ .report-entry{grid-template-columns:1fr}.re-image{min-height:420px}.re-text{border-top:1px solid var(--line)} }
+  @media(max-width:560px){ .re-image{min-height:330px}.re-text{padding:30px 24px}.archive-note{display:none} }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="brand"><img src="assets/logos/medwell-logo.png" alt="MEDWELL Club"><span>MEDWELL CLUB</span></a>
+    <nav class="main-nav" id="main-nav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="reports.html" aria-current="page">Chapter Reports</a></li>
+        <li><a href="index.html#our-media">Our Media</a></li>
+        <li><a href="about.html">About Us</a></li>
+      </ul>
+      <a href="index.html#get-involved" class="btn btn-solid join-btn">GET INVOLVED</a>
+      <div class="nav-social">
+        <span class="social-label">Follow us</span>
+        <div class="social-icons">
+          <a href="https://x.com/medwell_medsar" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="MEDWELL Club on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          <a href="https://www.instagram.com/medwell250/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="MEDWELL Club on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.012-3.584.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM12 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+          <a href="https://www.youtube.com/@THEMEDWELLPODCAST" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="MEDWELL Club on YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23.498 6.186a2.994 2.994 0 0 0-2.106-2.117C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.392.524A2.994 2.994 0 0 0 .502 6.186 31.26 31.26 0 0 0 0 12a31.26 31.26 0 0 0 .502 5.814 2.994 2.994 0 0 0 2.106 2.117c1.887.524 9.392.524 9.392.524s7.505 0 9.392-.524a2.994 2.994 0 0 0 2.106-2.117A31.26 31.26 0 0 0 24 12a31.26 31.26 0 0 0-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+        </div>
+      </div>
+    </nav>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav"><span></span></button>
+  </div>
+</header>
+
+<main id="main">
+  <div class="page-intro">
+    <div class="wrap">
+      <span class="eyebrow">MEDWELL Club publication archive</span>
+      <h1>Chapter Reports</h1>
+      <p class="lede" style="margin-top:22px;">Read the formal report for each MEDWELL Club chapter online, or download the corresponding PDF.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="meta">Chapter Reports · 2026</p>
+      <div id="reports-mount"></div>
+      <p class="archive-note">Monthly publications use <strong>Month Year Chapter Report</strong>. Annual publications will remain distinct as <strong>Year Annual Report</strong>.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div><div class="footer-brand">MEDWELL CLUB</div><p class="footer-statement">The people caring for the sick deserve care too. A living archive of MEDWELL Club's journey toward a healthier culture of medical education.</p>
+        <div class="footer-social">
+          <span class="social-label">Follow us</span>
+          <div class="social-icons">
+            <a href="https://x.com/medwell_medsar" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="MEDWELL Club on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+            <a href="https://www.instagram.com/medwell250/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="MEDWELL Club on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.012-3.584.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM12 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+          <a href="https://www.youtube.com/@THEMEDWELLPODCAST" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="MEDWELL Club on YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23.498 6.186a2.994 2.994 0 0 0-2.106-2.117C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.392.524A2.994 2.994 0 0 0 .502 6.186 31.26 31.26 0 0 0 0 12a31.26 31.26 0 0 0 .502 5.814 2.994 2.994 0 0 0 2.106 2.117c1.887.524 9.392.524 9.392.524s7.505 0 9.392-.524a2.994 2.994 0 0 0 2.106-2.117A31.26 31.26 0 0 0 24 12a31.26 31.26 0 0 0-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Explore</h4><ul><li><a href="reports.html">Chapter Reports</a></li></ul></div>
+      <div class="footer-col"><h4>Organization</h4><ul><li><a href="about.html">About Us</a></li><li><a href="about.html#community" data-open-involve>Join MEDWELL Club</a></li></ul></div>
+      <div class="footer-col"><h4>Latest Report</h4><ul><li><a href="august-2026-chapter-report.html">August 2026 Chapter Report</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 MEDWELL CLUB. Wellbeing for the people caring for the sick.</span><span>University of Rwanda</span></div>
+  </div>
+</footer>
+<script src="content/data.js"></script>
+<script src="js/nav.js"></script>
+
+<!-- GET INVOLVED MODAL -->
+<div class="gi-modal" id="involve-modal" aria-hidden="true">
+  <div class="gi-modal-backdrop" data-close-involve></div>
+  <div class="gi-modal-panel" role="dialog" aria-modal="true" aria-labelledby="gi-modal-title">
+    <button class="gi-modal-close" type="button" data-close-involve aria-label="Close">✕</button>
+
+    <div class="gi-step" data-gi-step="ways">
+      <span class="eyebrow" style="color:var(--green-deep);">Get Involved</span>
+      <h2 id="gi-modal-title" class="gi-modal-heading">Join us. Support us. Belong to MEDWELL Club.</h2>
+      <p class="gi-modal-lede">There's a place in MEDWELL Club at every stage of the journey, as a student, a practicing professional, or simply someone who believes healthcare providers deserve care too.</p>
+      <div class="gi-modal-ways">
+        <button class="gi-way" type="button" data-gi-role="students">
+          <span class="gi-way-num">01</span>
+          <span><span class="gi-way-label">Students</span><span class="gi-way-desc">Medical and health-sciences students building healthier habits together.</span></span>
+          <span class="gi-way-arrow" aria-hidden="true">→</span>
+        </button>
+        <button class="gi-way" type="button" data-gi-role="professionals">
+          <span class="gi-way-num">02</span>
+          <span><span class="gi-way-label">Professionals</span><span class="gi-way-desc">Doctors and healthcare professionals sharing time, mentorship and expertise.</span></span>
+          <span class="gi-way-arrow" aria-hidden="true">→</span>
+        </button>
+        <button class="gi-way" type="button" data-gi-role="supporters">
+          <span class="gi-way-num">03</span>
+          <span><span class="gi-way-label">Supporters</span><span class="gi-way-desc">Donors and contributors backing a healthier culture of medical education.</span></span>
+          <span class="gi-way-arrow" aria-hidden="true">→</span>
+        </button>
+      </div>
+      <div class="gi-modal-cta">
+        <button class="btn btn-solid" type="button" data-gi-role="general">Email Us</button>
+        <a class="link-arrow" href="reports.html">Read Chapter Reports <span class="a">→</span></a>
+      </div>
+    </div>
+
+    <div class="gi-step" data-gi-step="next" hidden>
+      <button class="gi-back" type="button" data-gi-back><span aria-hidden="true">←</span> Back</button>
+      <span class="eyebrow" style="color:var(--green-deep);">Get Involved — <span data-gi-role-eyebrow>Students</span></span>
+      <h2 id="gi-modal-title-next" class="gi-modal-heading" data-gi-role-heading>Get involved as a student.</h2>
+      <p class="gi-modal-lede" data-gi-role-lede>Join the medical and health-sciences students building healthier habits together.</p>
+      <div class="gi-next-actions">
+        <a class="gi-next-action" data-gi-mailto href="mailto:mwizerwabonheur45@gmail.com">
+          <span class="gi-next-action-icon" aria-hidden="true">✉</span>
+          <span><span class="gi-next-action-label">Email us</span><span class="gi-next-action-desc">Opens your email app with a message ready to personalize.</span></span>
+          <span class="gi-way-arrow" aria-hidden="true">→</span>
+        </a>
+        <button class="gi-next-action" type="button" data-gi-copy>
+          <span class="gi-next-action-icon" aria-hidden="true">⧉</span>
+          <span><span class="gi-next-action-label" data-gi-copy-label>Copy our email address</span><span class="gi-next-action-desc">mwizerwabonheur45@gmail.com</span></span>
+          <span class="gi-way-arrow" aria-hidden="true">→</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var mount=document.getElementById('reports-mount');
+  if(!mount) return;
+  mount.innerHTML=MEDWELL_CONTENT.reports.map(function(r){
+    var label=r.reportType==='annual' ? (r.year+' Annual Report') : (r.monthLabel+' Chapter Report');
+    return '<article class="report-entry reveal" id="'+r.id+'">'+
+      '<div class="re-image"><img src="'+r.cover+'" alt="'+r.eventTitle+' · '+r.monthLabel+' Chapter Report"></div>'+
+      '<div class="re-text">'+
+        '<div><span class="re-num">MEDWELL / '+(r.number||'')+'</span><div class="re-month">'+r.monthLabel.toUpperCase()+'</div></div>'+
+        '<p class="re-motif">'+(r.motif||'')+'</p>'+
+        '<div><div class="re-title">'+r.eventTitle+'</div><p class="re-theme">'+r.theme+'</p></div>'+
+        '<p class="meta re-meta">'+r.date+' · '+r.venue+' · '+r.participants.replace(' · ',' · ')+'</p>'+
+        '<div class="re-actions">'+
+          '<a class="re-read" href="'+r.readUrl+'">Read Chapter Report <span class="a">→</span></a>'+
+          (r.pdfUrl ? '<a class="re-download" href="'+r.pdfUrl+'" download>Download PDF <span class="a" aria-hidden="true">⬇</span></a>' : '')+
+        '</div>'+
+      '</div>'+
+    '</article>';
+  }).join('');
+  mount.querySelectorAll('.reveal').forEach(function(el){requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add('in');});});});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,902 @@
+/* ==========================================================================
+   MEDWELL Club Design System
+   Green + white editorial system. No gradients, no glass, no rounded cards.
+   ========================================================================== */
+
+:root {
+  /* Color */
+  --paper: #FAFAF7;
+  --white: #FFFFFF;
+  --ink: #121815;
+  --ink-soft: #4A544E;
+  --line: #DEDFD6;
+  --line-strong: #C7C9BC;
+  --green-deep: #0B5E3A;
+  --green: #157A45;
+  --green-bright: #2E9E5B;
+  --green-wash: #EEF3ED;
+  --gold: #E3A63B;
+
+  /* Type */
+  --font-display: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+
+  /* Scale */
+  --container: 1320px;
+  --gutter: clamp(20px, 4vw, 64px);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+
+::selection { background: var(--green-deep); color: var(--white); }
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--green-deep);
+  outline-offset: 3px;
+}
+
+.wrap {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+/* ---- Typography ---- */
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--ink);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--green-deep);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.eyebrow::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  background: var(--green-bright);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* Section-header variant: for an .eyebrow that IS the header for its
+   section (no larger heading follows it), rather than a small kicker
+   sitting above one. Same color, marker, letter-spacing and font,
+   just sized to read as a heading instead of a caption. */
+.eyebrow-heading {
+  font-size: clamp(19px, 2.3vw, 27px);
+  gap: 13px;
+}
+
+.meta {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+}
+
+.lede {
+  font-size: clamp(18px, 2vw, 22px);
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 46ch;
+}
+
+.pull {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(24px, 3.4vw, 38px);
+  line-height: 1.25;
+  color: var(--green-deep);
+  letter-spacing: -0.01em;
+  max-width: 22ch;
+}
+
+/* ---- Buttons / links ---- */
+
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--green-deep);
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--green-deep);
+  transition: gap 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.link-arrow:hover { gap: 15px; }
+.link-arrow.on-dark { color: var(--white); border-color: rgba(255,255,255,0.7); }
+.link-arrow .a { transition: transform 0.25s ease; }
+.link-arrow:hover .a { transform: translateX(2px); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 19px 26px;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.btn:hover { background: var(--ink); color: var(--white); }
+
+.btn-solid {
+  background: var(--green-deep);
+  border-color: var(--green-deep);
+  color: var(--white);
+}
+.btn-solid:hover { background: var(--ink); border-color: var(--ink); color: var(--white); }
+
+.btn-ghost-light {
+  border-color: rgba(255,255,255,0.55);
+  color: var(--white);
+}
+.btn-ghost-light:hover { background: var(--white); color: var(--ink); }
+
+/* ---- Header / Nav ---- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(250, 250, 247, 0.92);
+  backdrop-filter: saturate(140%) blur(6px);
+  border-bottom: 1px solid var(--line);
+}
+
+.site-header .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 76px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 17px;
+  letter-spacing: 0.01em;
+}
+.brand img { height: 30px; width: auto; }
+.brand span { padding-top: 1px; }
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.main-nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 34px;
+}
+
+.main-nav a {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  position: relative;
+  padding-bottom: 4px;
+}
+.main-nav a::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 100%;
+  bottom: 0;
+  height: 1px;
+  background: var(--green-deep);
+  transition: right 0.25s ease;
+}
+.main-nav a:hover, .main-nav a[aria-current="page"] { color: var(--ink); }
+.main-nav a:hover::after, .main-nav a[aria-current="page"]::after { right: 0; }
+
+/* Nav CTA button (.join-btn) is also matched by ".main-nav a" above, which
+   sets a dark ink-soft color at equal-or-higher specificity than .btn-solid's
+   white; that's what made this label unreadable on its green background.
+   Force white in every state with a more specific, ancestor-qualified selector. */
+.site-header .main-nav a.join-btn,
+.site-header .main-nav a.join-btn:hover,
+.site-header .main-nav a.join-btn:focus-visible,
+.site-header .main-nav a.join-btn[aria-current="page"] {
+  color: var(--white);
+}
+.site-header .main-nav a.join-btn::after { content: none; }
+
+/* Same ".main-nav a" specificity collision also overrides padding-bottom
+   (4px, meant for the plain links' underline gap), squashing .btn's
+   symmetric 19px/19px padding down to 19px/4px and pushing the button
+   label off-center. Set explicit symmetric padding (slightly shorter
+   than the base .btn's 19px so the nav button sits a bit less tall). */
+.site-header .main-nav a.join-btn {
+  padding-top: 13px;
+  padding-bottom: 13px;
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  width: 30px;
+  height: 22px;
+  position: relative;
+}
+.nav-toggle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
+}
+.nav-toggle span, .nav-toggle span::before, .nav-toggle span::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background: var(--ink);
+  transition: transform 0.25s ease, opacity 0.25s ease, top 0.25s ease;
+}
+.nav-toggle span { top: 10px; }
+.nav-toggle span::before { top: -8px; }
+.nav-toggle span::after { top: 8px; }
+.nav-toggle[aria-expanded="true"] span { background: transparent; }
+.nav-toggle[aria-expanded="true"] span::before { top: 0; transform: rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span::after { top: 0; transform: rotate(-45deg); }
+
+/* Body is locked (see .nav-locked below) whenever the mobile menu is open,
+   so this is a contained fallback only — it should never need to kick in on
+   a normal phone, but keeps a very short/landscape screen from clipping
+   content instead of silently cutting off the social icons. */
+@media (max-width: 880px) {
+  .nav-toggle { display: block; }
+  .main-nav {
+    position: fixed;
+    top: 76px;
+    left: 0;
+    right: 0;
+    /* 100vh on mobile browsers is measured with the address bar showing;
+       100dvh tracks the real, current viewport so the menu's box always
+       reaches the true bottom of the screen. Keep the vh line first as a
+       fallback for browsers that don't support dvh. */
+    height: calc(100vh - 76px);
+    height: calc(100dvh - 76px);
+    background: var(--paper);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 30px var(--gutter) max(28px, env(safe-area-inset-bottom) + 20px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    transform: translateY(-8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+  .main-nav.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .main-nav ul { flex-direction: column; gap: 22px; }
+  .main-nav ul a { font-size: 15px; }
+  .main-nav .join-btn { margin-top: 26px; }
+}
+
+/* Locks the page behind the mobile menu so it can't be scrolled while open —
+   this is what stops the homepage content from ever showing through. */
+body.nav-locked {
+  overflow: hidden;
+  height: 100vh;
+  height: 100dvh;
+}
+
+/* On short screens (small phones, landscape) shrink the vertical rhythm so
+   the whole menu — including the social row — comfortably fits without
+   needing its internal scroll fallback at all. */
+@media (max-width: 880px) and (max-height: 700px) {
+  .main-nav { padding-top: 22px; }
+  .main-nav ul { gap: 14px; }
+  .main-nav .join-btn { margin-top: 18px; }
+  .nav-social { padding-top: 20px; }
+}
+@media (max-width: 880px) and (max-height: 560px) {
+  .main-nav ul a { font-size: 14px; }
+  .nav-social { padding-top: 14px; }
+  .nav-social .social-label { margin-bottom: 8px; }
+}
+
+/* ---- Get Involved band ---- */
+
+.community-band {
+  background: var(--green-deep);
+  color: var(--white);
+}
+.community-band .eyebrow { color: var(--white); }
+.community-band .eyebrow::before { background: var(--white); }
+.community-band h2 {
+  color: var(--white);
+  font-size: clamp(26px, 3.6vw, 38px);
+  max-width: 22ch;
+  margin-top: 14px;
+}
+.community-band p {
+  color: rgba(255,255,255,0.82);
+  max-width: 54ch;
+  margin-top: 14px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+.community-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 30px;
+}
+/* .btn-ghost-light already sets white text, this just makes sure nothing
+   above (e.g. ".main-nav a" rules on the reused .btn base) can darken it here. */
+.community-band .btn-ghost-light { color: var(--white); }
+.community-band .btn-ghost-light:hover { color: var(--ink); }
+
+/* ---- Get Involved (closing section, shared across pages) ---- */
+.involve-section {
+  background: var(--green-deep);
+  color: var(--white);
+  padding: 130px 0 120px;
+  position: relative;
+  overflow: hidden;
+}
+/* A single hairline numeral, oversized and mostly off-canvas, gives the
+   band a quiet editorial signature, texture, not decoration. Purely
+   tonal (green-on-green), so it never competes with the real content
+   and disappears entirely under reduced-motion / print. */
+.involve-section::after {
+  content: '03';
+  position: absolute;
+  right: clamp(-40px, -2vw, 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(160px, 22vw, 340px);
+  line-height: 1;
+  color: rgba(255,255,255,0.035);
+  pointer-events: none;
+  user-select: none;
+}
+.involve-section .eyebrow { color: rgba(255,255,255,0.85); }
+.involve-section .eyebrow::before { background: var(--gold); }
+.involve-grid {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: clamp(40px, 6vw, 90px);
+  align-items: start;
+  position: relative;
+}
+.involve-heading {
+  color: var(--white);
+  font-size: clamp(30px, 3.6vw, 44px);
+  line-height: 1.14;
+  margin-top: 18px;
+  max-width: 14ch;
+}
+.involve-lede {
+  color: rgba(255,255,255,0.78);
+  font-size: 16.5px;
+  line-height: 1.65;
+  max-width: 42ch;
+  margin-top: 20px;
+}
+.involve-cta {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  flex-wrap: wrap;
+  margin-top: 36px;
+}
+.involve-ways {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgba(255,255,255,0.16);
+}
+.involve-row {
+  display: grid;
+  grid-template-columns: 40px 1fr auto;
+  align-items: center;
+  column-gap: 22px;
+  padding: 26px 4px;
+  border-bottom: 1px solid rgba(255,255,255,0.16);
+  transition: background 0.3s ease, padding-left 0.3s ease;
+  width: 100%;
+  background: none;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.involve-row:hover { background: rgba(255,255,255,0.05); padding-left: 14px; }
+.involve-num {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+}
+.involve-text { min-width: 0; }
+.involve-label {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(18px, 2vw, 22px);
+  letter-spacing: -0.005em;
+}
+.involve-desc {
+  display: block;
+  color: rgba(255,255,255,0.68);
+  font-size: 14px;
+  line-height: 1.55;
+  margin-top: 6px;
+  max-width: 40ch;
+}
+.involve-row .a {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  color: rgba(255,255,255,0.5);
+  transition: transform 0.25s ease, color 0.25s ease;
+  flex-shrink: 0;
+}
+.involve-row:hover .a { transform: translateX(4px); color: var(--gold); }
+@media (max-width: 880px) {
+  .involve-grid { grid-template-columns: 1fr; gap: 48px; }
+}
+@media (max-width: 700px) {
+  .involve-section { padding: 84px 0 70px; }
+  .involve-heading { max-width: none; }
+  .involve-row { grid-template-columns: 30px 1fr auto; padding: 20px 2px; column-gap: 14px; }
+  .involve-row:hover { padding-left: 8px; }
+  .involve-label { font-size: 18px; }
+  .involve-desc { font-size: 13.5px; }
+}
+
+/* ---- Get Involved modal (shared across all pages) ---- */
+
+body.gi-locked { overflow: hidden; }
+
+.gi-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.25s ease, visibility 0s linear 0.25s;
+}
+.gi-modal.open {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.25s ease;
+}
+.gi-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(11, 16, 13, 0.62);
+}
+.gi-modal-panel {
+  position: relative;
+  background: var(--white);
+  border: 1px solid var(--line);
+  width: 100%;
+  max-width: 640px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  padding: clamp(34px, 5vw, 56px);
+  transform: translateY(14px);
+  transition: transform 0.3s ease;
+  box-shadow: 0 24px 64px rgba(11, 16, 13, 0.22);
+}
+.gi-modal.open .gi-modal-panel { transform: translateY(0); }
+.gi-modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.gi-modal-close:hover { background: var(--ink); color: var(--white); border-color: var(--ink); }
+.gi-modal-heading {
+  font-size: clamp(24px, 3vw, 32px);
+  line-height: 1.18;
+  margin-top: 16px;
+  max-width: 18ch;
+}
+.gi-modal-lede {
+  color: var(--ink-soft);
+  font-size: 15.5px;
+  line-height: 1.6;
+  max-width: 48ch;
+  margin-top: 16px;
+}
+.gi-modal-ways {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--line);
+  margin-top: 30px;
+}
+.gi-way {
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  align-items: center;
+  column-gap: 18px;
+  padding: 18px 4px;
+  border-bottom: 1px solid var(--line);
+  transition: background 0.25s ease, padding-left 0.25s ease;
+  width: 100%;
+  margin: 0;
+  background: none;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  border-radius: 0;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.gi-way:hover { background: var(--green-wash); padding-left: 10px; }
+.gi-way-num { font-family: var(--font-mono); font-size: 12.5px; color: var(--green-deep); }
+.gi-way-label { display: block; font-family: var(--font-display); font-weight: 800; font-size: 15.5px; }
+.gi-way-desc { display: block; color: var(--ink-soft); font-size: 13px; line-height: 1.5; margin-top: 4px; max-width: 38ch; }
+.gi-way-arrow { font-family: var(--font-mono); font-size: 16px; color: var(--ink-soft); transition: transform 0.2s ease, color 0.2s ease; flex-shrink: 0; }
+.gi-way:hover .gi-way-arrow { transform: translateX(3px); color: var(--green-deep); }
+.gi-modal-cta {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+.gi-modal-cta .btn { margin: 0; }
+
+/* ---- Get Involved modal: two-step "ways" -> "next step" flow ---- */
+.gi-step[hidden] { display: none; }
+.gi-step:not([hidden]) { animation: giStepIn 0.32s ease; }
+@keyframes giStepIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.gi-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 24px;
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.gi-back:hover { color: var(--green-deep); }
+.gi-back span { display: inline-block; transition: transform 0.2s ease; }
+.gi-back:hover span { transform: translateX(-3px); }
+.gi-next-actions {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--line);
+  margin-top: 28px;
+}
+.gi-next-action {
+  display: grid;
+  grid-template-columns: 42px 1fr auto;
+  align-items: center;
+  column-gap: 18px;
+  padding: 20px 4px;
+  border-bottom: 1px solid var(--line);
+  width: 100%;
+  margin: 0;
+  background: none;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  border-radius: 0;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  transition: background 0.25s ease, padding-left 0.25s ease;
+}
+.gi-next-action:hover { background: var(--green-wash); padding-left: 10px; }
+.gi-next-action-icon {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line-strong);
+  font-size: 17px;
+  color: var(--green-deep);
+  flex-shrink: 0;
+}
+.gi-next-action-label { display: block; font-family: var(--font-display); font-weight: 800; font-size: 15.5px; transition: color 0.2s ease; }
+.gi-next-action-desc { display: block; color: var(--ink-soft); font-size: 13px; line-height: 1.5; margin-top: 4px; max-width: 38ch; }
+.gi-next-action.is-copied .gi-next-action-icon { border-color: var(--green-deep); background: var(--green-deep); color: var(--white); }
+.gi-next-action.is-copied .gi-next-action-label { color: var(--green-deep); }
+@media (max-width: 520px) {
+  .gi-modal { padding: 0; align-items: flex-end; }
+  .gi-modal-panel { max-width: none; max-height: 88vh; border-left: none; border-right: none; border-bottom: none; }
+}
+
+/* ---- Footer ---- */
+
+.site-footer {
+  background: var(--ink);
+  color: rgba(255,255,255,0.72);
+  padding: 130px 0 40px;
+  margin-top: 160px;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 40px;
+  padding-bottom: 70px;
+  border-bottom: 1px solid rgba(255,255,255,0.14);
+}
+
+.footer-brand {
+  font-family: var(--font-display);
+  font-weight: 800;
+  color: var(--white);
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+.footer-statement {
+  max-width: 34ch;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.footer-col h4 {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 22px;
+  font-weight: 500;
+}
+
+.footer-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 15px; }
+.footer-col a { font-size: 14.5px; color: rgba(255,255,255,0.82); transition: color 0.2s ease; }
+.footer-col a:hover { color: var(--green-bright); }
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 34px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.02em;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+@media (max-width: 780px) {
+  .footer-top { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 520px) {
+  .footer-top { grid-template-columns: 1fr; padding-bottom: 50px; }
+  .footer-brand { font-size: 20px; margin-bottom: 16px; }
+  .footer-col h4 { margin-bottom: 16px; }
+  .footer-col ul { gap: 12px; }
+  .site-footer { padding: 60px 0 30px; margin-top: 100px; }
+}
+
+/* ---- Social links (footer + mobile nav) ----
+   Shared square, single-line-border icon buttons, matching the site's
+   sharp-edged .btn treatment (no rounded corners). Colour comes from
+   the surface it sits on: light text/border on the dark footer,
+   ink-soft/border on the light mobile-nav panel. A 44px box meets the
+   recommended minimum comfortable tap-target size. */
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  flex-shrink: 0;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.social-link svg { width: 17px; height: 17px; display: block; }
+
+/* Small "Follow us" kicker sitting above the icon row, wherever the
+   social links appear (footer, mobile nav). Colour comes from the
+   surface it sits on, same as the icons themselves. */
+.social-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.social-icons { display: flex; gap: 12px; }
+
+.footer-social { margin-top: 26px; }
+.footer-social .social-label { color: rgba(255,255,255,0.5); }
+.footer-social .social-link {
+  border-color: rgba(255,255,255,0.22);
+  color: rgba(255,255,255,0.82);
+}
+.footer-social .social-link:hover,
+.footer-social .social-link:focus-visible {
+  color: var(--green-bright);
+  border-color: var(--green-bright);
+}
+
+/* Hidden in the inline desktop nav; only surfaces inside the expanded
+   mobile menu, pinned toward the bottom via margin-top:auto since
+   .main-nav becomes a full-height flex column at that breakpoint. */
+.nav-social { display: none; }
+.nav-social .social-label { color: var(--ink-soft); margin-bottom: 13px; }
+.nav-social .social-icons { gap: 14px; }
+.nav-social .social-link {
+  border-color: var(--line);
+  color: var(--ink-soft);
+}
+.nav-social .social-link:hover,
+.nav-social .social-link:focus-visible {
+  color: var(--green-deep);
+  border-color: var(--green-deep);
+}
+
+@media (max-width: 880px) {
+  .nav-social {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    padding-top: 34px;
+  }
+}
+
+/* ---- Utility layout ---- */
+
+.section { padding: 130px 0; }
+.section-tight { padding: 90px 0; }
+@media (max-width: 780px) {
+  .section { padding: 80px 0; }
+  .section-tight { padding: 60px 0; }
+}
+
+.hr {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 0;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+
+/* ---- Page intro (used on inner pages) ---- */
+
+.page-intro {
+  padding: 190px 0 70px;
+  border-bottom: 1px solid var(--line);
+}
+.page-intro h1 {
+  font-size: clamp(40px, 6vw, 76px);
+  line-height: 1.02;
+  margin-top: 20px;
+}
+@media (max-width: 700px) {
+  .page-intro { padding: 128px 0 44px; }
+}
+
+/* ---- Mobile-wide safety nets ---- */
+html, body { max-width: 100%; overflow-x: hidden; }
+.wrap { width: 100%; }
+@media (max-width: 700px) {
+  .wrap { padding-left: 20px; padding-right: 20px; }
+  .section, .section-tight { overflow-x: hidden; }
+  .btn { max-width: 100%; }
+}
+table { max-width: 100%; }
+@media (max-width: 600px) {
+  table.prog-table { font-size: 13px; }
+  table.prog-table th, table.prog-table td { padding: 8px 6px; }
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: var(--ink);
+  color: var(--white);
+  padding: 12px 18px;
+  z-index: 1000;
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+.skip-link:focus { left: var(--gutter); top: 14px; }

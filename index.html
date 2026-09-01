@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MEDWELL Club: We can't pour from an empty cup. Healthcare Providers deserve care too.</title>
+<meta name="description" content="MEDWELL Club is a medical-student wellbeing initiative building a culture of healthier medical education. Follow our monthly chapters and formal reports.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .hero {
+    position: relative;
+    min-height: calc(100vh - 77px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+  }
+  .hero img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+  .hero picture { position: absolute; inset: 0; width: 100%; height: 100%; }
+  @media (max-width: 700px) {
+    /* On mobile the hero section is ~100vh tall (min-height: calc(100vh - 77px)),
+       but most of that height sits behind the opaque hero-panel text block.
+       With position:absolute + height:100%, object-fit:cover was scaling the
+       photo to cover that *entire* hidden height, over-zooming and cropping
+       most of the group off the sides. Decoupling the photo from that height
+       (fixed aspect ratio, normal flow, sized only by width) fixes this. */
+    .hero { min-height: 0; }
+    .hero picture {
+      position: static;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 937 / 873;
+    }
+    .hero img {
+      position: static;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 937 / 873;
+      object-fit: cover;
+      object-position: center center;
+    }
+  }
+  @media (min-width: 701px) {
+    /* Same underlying issue as mobile: with position:absolute + height:100%,
+       the photo was scaled to cover the *entire* min-height:100vh hero box,
+       including the height hidden behind the hero-panel text block. On
+       laptop/desktop viewports that hidden height varies a lot, so the photo
+       kept over-zooming, cropping people off the sides and leaving too
+       little breathing room above the green panel. Decoupling the photo
+       from viewport height (fixed aspect ratio, normal flow, sized only by
+       width) locks in a consistent, intentional crop at every screen size. */
+    .hero { min-height: 0; }
+    .hero picture {
+      position: static;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 2200 / 812;
+    }
+    .hero img {
+      position: static;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 2200 / 812;
+      object-fit: cover;
+      object-position: center top;
+    }
+  }
+  .hero-panel {
+    position: relative;
+    background: var(--green-deep);
+    /* Top padding trimmed down (was 26px) to bring the heading up closer to
+       the photo, tightening the gap. */
+    padding: 14px var(--gutter) 64px;
+    /* Bottom padding scales with the *smallest* visible viewport height (svh),
+       which already excludes mobile browser chrome (address bar/toolbars),
+       so the CTA gets comfortable breathing room below it on tall laptop
+       screens without being pushed off-screen on short/mobile viewports.
+       The plain 64px above is the fallback for browsers without svh support. */
+    padding-bottom: clamp(64px, 9svh, 112px);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    align-items: end;
+    gap: 48px;
+  }
+  .hero-panel .eyebrow { color: rgba(255,255,255,0.85); }
+  .hero-panel .eyebrow::before { background: var(--gold); }
+  .hero-statement {
+    font-family: var(--font-display);
+    font-weight: 800;
+    color: var(--white);
+    font-size: clamp(22px, 2.6vw, 34px);
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+    margin-top: 10px;
+  }
+  .hero-subline {
+    font-family: var(--font-display);
+    font-weight: 500;
+    color: rgba(255,255,255,0.82);
+    font-size: clamp(15px, 1.3vw, 18px);
+    line-height: 1.4;
+    margin: 12px 0 0;
+  }
+  .hero-foot {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .hero-foot p {
+    max-width: 44ch;
+    color: rgba(255,255,255,0.78);
+    font-size: 14px;
+    margin: 0;
+  }
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--white);
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.55);
+    padding: 12px 20px;
+    transition: border-color 0.25s ease, background 0.25s ease;
+  }
+  .hero-cta:hover { border-color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.06); }
+  @media (max-width: 880px) {
+    .hero-panel { padding: 10px var(--gutter) 40px; }
+    .hero-panel { padding-bottom: clamp(40px, 8svh, 88px); }
+    .hero-grid { grid-template-columns: 1fr; align-items: start; gap: 10px; }
+    .hero-statement { font-size: 22px; margin-top: 8px; }
+    .hero-subline { font-size: 13.5px; margin-top: 6px; }
+    .hero-foot { margin-top: 0; gap: 8px; }
+    .hero-foot p { font-size: 13px; line-height: 1.45; }
+    .hero-cta { font-size: 11px; padding: 10px 16px; }
+  }
+  .scroll-cue {
+    position: absolute;
+    top: 30px;
+    right: var(--gutter);
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--white);
+    writing-mode: vertical-rl;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .scroll-cue::after { content:''; width:1px; height:46px; background: rgba(255,255,255,0.5); }
+
+  /* Categories index */
+  .cat-row {
+    display: grid;
+    grid-template-columns: 90px 1fr 1.5fr;
+    align-items: center;
+    gap: 32px;
+    padding: 22px 0;
+    border-top: 1px solid var(--line);
+    transition: background 0.3s ease;
+  }
+  .cat-row:last-child { border-bottom: 1px solid var(--line); }
+  .cat-row:hover { background: var(--green-wash); }
+  .cat-index { font-family: var(--font-mono); font-size: 13px; color: var(--ink-soft); }
+  .cat-name { font-family: var(--font-display); font-weight: 800; font-size: clamp(22px, 2.3vw, 30px); letter-spacing: -0.01em; line-height: 1.15; }
+  .cat-desc { color: var(--ink-soft); font-size: 14px; line-height: 1.6; max-width: 46ch; }
+  @media (max-width: 700px) {
+    .cat-row { grid-template-columns: 40px 1fr; grid-template-areas: "idx name" ". desc"; row-gap: 8px; padding: 17px 0; }
+    .cat-index { grid-area: idx; }
+    .cat-name { grid-area: name; font-size: 21px; line-height: 1.15; }
+    .cat-desc { grid-area: desc; font-size: 13px; line-height: 1.55; }
+  }
+
+  /* Chapter feature */
+  .chapter-feature {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 0;
+    border: 1px solid var(--line);
+  }
+  .chapter-feature .cf-image { position: relative; min-height: 520px; background: var(--ink); }
+  .chapter-feature .cf-image img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+  .cf-text {
+    padding: clamp(30px, 4vw, 64px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 22px;
+    border-left: 1px solid var(--line);
+  }
+  .cf-num { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.1em; color: var(--green-deep); text-transform: uppercase; }
+  .cf-month { font-family: var(--font-display); font-weight: 800; font-size: clamp(30px, 4vw, 46px); line-height: 1; margin-top: 8px;}
+  .cf-motif { font-family: var(--font-display); font-weight: 500; font-size: clamp(18px, 2vw, 22px); color: var(--green-deep); font-style: normal; }
+  .cf-title { font-size: clamp(22px, 2.4vw, 30px); font-weight: 800; font-family: var(--font-display); }
+  .cf-theme { color: var(--ink-soft); font-size: 15.5px; max-width: 40ch; }
+  @media (max-width: 880px) {
+    .chapter-feature { grid-template-columns: 1fr; }
+    .cf-image { min-height: 340px; }
+    .cf-text { border-left: none; border-top: 1px solid var(--line); }
+  }
+
+  /* Quote slider */
+  .quote-slider {
+    background: var(--green-deep);
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+  }
+  .quote-slider-viewport { overflow: hidden; }
+  .quote-track {
+    display: flex;
+    align-items: stretch;
+    will-change: transform;
+  }
+  .quote-slide {
+    flex-shrink: 0;
+    box-sizing: border-box;
+    padding: 96px 0 84px;
+    display: flex;
+    align-items: center;
+  }
+  .quote-slide .wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+  }
+  .qs-mark {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 40px;
+    line-height: 1;
+    color: var(--gold);
+    opacity: 0.85;
+  }
+  .quote-slide blockquote {
+    margin: 0;
+    max-width: 900px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(22px, 2.6vw, 32px);
+    line-height: 1.46;
+    letter-spacing: -0.008em;
+  }
+  .qs-attribution {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  }
+  .qs-photo {
+    width: 104px;
+    height: 104px;
+    border-radius: 999px;
+    object-fit: cover;
+    object-position: 50% 22%;
+    flex-shrink: 0;
+    display: block;
+    box-shadow: 0 0 0 3px var(--gold);
+  }
+  .qs-divider {
+    width: 1px;
+    height: 52px;
+    background: rgba(255,255,255,0.25);
+    flex-shrink: 0;
+  }
+  .qs-meta { display: flex; flex-direction: column; gap: 6px; min-width: 0; max-width: 44ch; }
+  .qs-name {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 17px;
+    letter-spacing: 0.01em;
+  }
+  .qs-role {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--gold);
+    line-height: 1.55;
+  }
+  .quote-dots {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    padding-bottom: 34px;
+  }
+  .quote-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.28);
+    transition: background 0.5s ease, transform 0.5s ease;
+  }
+  .quote-dot.active { background: var(--gold); transform: scale(1.35); }
+  @media (max-width: 780px) {
+    .quote-slide { padding: 64px 0 54px; }
+    .quote-slide .wrap { gap: 26px; }
+    .quote-slide blockquote { font-size: clamp(19px, 3.4vw, 24px); line-height: 1.44; }
+    .qs-photo { width: 84px; height: 84px; }
+    .qs-divider { height: 42px; }
+    .qs-name { font-size: 15.5px; }
+    .qs-role { font-size: 11px; }
+  }
+  @media (max-width: 460px) {
+    .qs-attribution { gap: 16px; }
+    .qs-photo { width: 72px; height: 72px; }
+    .qs-divider { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .quote-track { transform: none !important; transition: none !important; flex-direction: column; width: 100% !important; }
+    .quote-slide { flex: 0 0 100% !important; width: 100% !important; }
+  }
+  .quote-secondary {
+    background: var(--ink);
+    color: var(--white);
+    padding: 34px 0;
+    text-align: center;
+  }
+  .quote-secondary p {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(18px, 2.4vw, 26px);
+    line-height: 1.25;
+  }
+
+  /* Our Partners */
+  .partners-section {
+    padding: 211px 0;
+    border-top: 1px solid var(--line);
+    background: var(--white);
+  }
+  .partners-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: clamp(44px, 6vw, 88px);
+    margin-top: 139px;
+  }
+  .partner-logo {
+    width: clamp(128px, 15vw, 188px);
+    height: 84px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .partner-logo img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+  }
+  /* MEDSAR's mark is a square badge with its legend text baked into the
+     artwork, unlike the two flat wordmarks beside it — constrained to the
+     same 84px box it reads as a blur. Give its box more room so the badge
+     (and the words at the bottom of it) render legibly, while keeping the
+     row's vertical centering so it doesn't throw off alignment. */
+  .partner-logo--medsar { height: 148px; }
+  .partners-divider {
+    width: 1px;
+    height: 44px;
+    background: var(--line-strong);
+    flex-shrink: 0;
+  }
+  @media (max-width:700px) {
+    .partners-section { padding: 122px 0; }
+    .partners-row { justify-content: center; gap: clamp(14px, 4vw, 28px); margin-top: 78px; flex-wrap: nowrap; }
+    .partners-divider { display: none; }
+    .partner-logo { height: 46px; width: clamp(76px, 27vw, 108px); }
+    .partner-logo--medsar { height: 88px; }
+  }
+
+  /* Get Involved (closing section) styling now lives in css/style.css,
+     shared with the About Us page's own Get Involved section. */
+
+  /* This section's own bottom padding plus the footer's own top padding
+     (90px) already give ample, intentional breathing room; the
+     site-footer's default margin-top (160px) was stacking a third gap
+     on top of those two, tripling the space. Removed here only. */
+  .site-footer { margin-top: 0; }
+  @media (max-width: 520px) { .site-footer { margin-top: 0; } }
+
+  /* Story strip */
+  .story-strip { display: grid; grid-template-columns: 1.3fr 0.9fr 1fr; gap: 18px; }
+  .story-strip figure { margin: 0; overflow: hidden; background: var(--line); }
+  .story-strip img { width: 100%; height: 100%; object-fit: cover; display:block; aspect-ratio: 4/5; transition: transform 0.6s ease; }
+  .story-strip figure:hover img { transform: scale(1.035); }
+  .story-strip .tall { aspect-ratio: auto; }
+  .story-strip .tall img { aspect-ratio: 3/4.4; }
+  @media (max-width: 780px) {
+    .story-strip { grid-template-columns: 1fr 1fr; }
+    .story-strip figure:first-child { grid-column: 1 / -1; }
+  }
+
+
+  .two-col-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 30px;
+    margin-bottom: 54px;
+    flex-wrap: wrap;
+  }
+
+  /* "We are Contributors to" — two editorial media contributions.
+     A quiet centre rule (not a card border) separates them on desktop;
+     on mobile it becomes a simple top rule between stacked entries.
+     The two entries are typographically distinct on purpose (a pull
+     line for the magazine, a running paragraph for the podcast) so
+     they never read as matching, generic tiles. */
+  .contributors-grid { display:grid; grid-template-columns: 1fr 1px 1fr; gap: 64px; margin-top: 40px; align-items: start; }
+
+  /* Closing line: understated sign-off, not a heading or card — no
+     divider, just a step up in size so it reads as a natural close to
+     the two entries above it. Wraps freely on narrow screens; from
+     laptop width up it holds to a single line, sized so the full
+     sentence fits the container without wrapping or shrinking to an
+     illegible size (font-size derived from available content width
+     divided by this exact sentence's measured character-width in
+     Inter Regular, same technique as the page-intro fit-line headline). */
+  .contributors-closing {
+    margin-top: 40px;
+    color: var(--ink-soft);
+    font-size: clamp(14px, 2.1vw, 16px);
+    line-height: 1.6;
+    max-width: 62ch;
+  }
+  @media (min-width: 1024px) {
+    .contributors-closing {
+      white-space: nowrap;
+      max-width: none;
+      margin-top: 56px;
+      font-size: clamp(1px, calc((min(100vw, 1320px) - 2 * var(--gutter)) / 72), 16.5px);
+    }
+  }
+  .contributors-divider { background: var(--line-strong); align-self: stretch; }
+
+  .contributor-kicker { display:flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft); }
+  .contributor-kicker .n { color:var(--green-deep); }
+  .contributor-name { font-family:var(--font-display); font-weight:800; font-size:clamp(21px, 2.3vw, 28px); letter-spacing:-0.01em; margin-top:16px; }
+  .contributor-tagline { font-family:var(--font-display); font-weight:700; color:var(--green-deep); font-size:18.5px; line-height:1.45; max-width:28ch; margin-top:14px; }
+  .contributor-desc { color:var(--ink-soft); font-size:15px; line-height:1.75; max-width:46ch; margin-top:14px; }
+
+  .contributor-link {
+    display:inline-flex; align-items:center; gap:9px; margin-top:28px;
+    font-family:var(--font-mono); font-size:12.5px; letter-spacing:.05em;
+    color:var(--green-deep); padding-bottom:3px; border-bottom:1px solid var(--green-deep);
+    transition: gap 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  }
+  .contributor-link:hover { gap:15px; color:var(--ink); border-color:var(--ink); }
+  .contributor-link .ext-icon { font-size:12px; display:inline-block; transition: transform 0.25s ease; }
+  .contributor-link:hover .ext-icon { transform: translate(2px, -2px); }
+
+  @media (max-width: 780px) {
+    .contributors-grid { grid-template-columns: 1fr; gap:0; margin-top: 40px; }
+    .contributors-divider { display:none; }
+    .contributor ~ .contributor { border-top:1px solid var(--line); margin-top:36px; padding-top:36px; }
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <img src="assets/logos/medwell-logo.png" alt="MEDWELL Club">
+      <span>MEDWELL CLUB</span>
+    </a>
+    <nav class="main-nav" id="main-nav">
+      <ul>
+        <li><a href="index.html" aria-current="page">Home</a></li>
+        <li><a href="reports.html">Chapter Reports</a></li>
+        <li><a href="#our-media">Our Media</a></li>
+        <li><a href="about.html">About Us</a></li>
+      </ul>
+      <a href="#get-involved" class="btn btn-solid join-btn">GET INVOLVED</a>
+      <div class="nav-social">
+        <span class="social-label">Follow us</span>
+        <div class="social-icons">
+          <a href="https://x.com/medwell_medsar" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="MEDWELL Club on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          <a href="https://www.instagram.com/medwell250/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="MEDWELL Club on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.012-3.584.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM12 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+          <a href="https://www.youtube.com/@THEMEDWELLPODCAST" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="MEDWELL Club on YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23.498 6.186a2.994 2.994 0 0 0-2.106-2.117C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.392.524A2.994 2.994 0 0 0 .502 6.186 31.26 31.26 0 0 0 0 12a31.26 31.26 0 0 0 .502 5.814 2.994 2.994 0 0 0 2.106 2.117c1.887.524 9.392.524 9.392.524s7.505 0 9.392-.524a2.994 2.994 0 0 0 2.106-2.117A31.26 31.26 0 0 0 24 12a31.26 31.26 0 0 0-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+        </div>
+      </div>
+    </nav>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav"><span></span></button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero">
+    <picture>
+      <source media="(max-width: 700px)" srcset="assets/photos/hero-guest-speaker-cover-mobile.jpg">
+      <img src="assets/photos/hero-guest-speaker-cover.jpg" alt="MEDWELL Club members and guest speaker Dr. Gaston Nyirigira posing together after the Wellness Retreat session.">
+    </picture>    <span class="scroll-cue">Scroll</span>
+    <div class="hero-panel">
+      <div class="wrap hero-grid" style="padding:0;">
+        <div class="hero-left">
+          <span class="eyebrow">MEDWELL CLUB</span>
+          <h1 class="hero-statement">Medicine is a journey, not a race to exhaustion.</h1>
+          <p class="hero-subline">The people caring for the sick deserve care too.</p>
+        </div>
+        <div class="hero-foot">
+          <p>Each month, our activities become a new chapter in the MEDWELL CLUB journey, toward healthier medical education and healthier healthcare professionals.</p>
+          <a class="hero-cta" href="reports.html">Explore Chapter Reports</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CURRENT CHAPTER REPORT -->
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="two-col-head">
+        <div>
+          <span class="eyebrow eyebrow-heading">Latest Chapter Report</span>
+          <p class="meta" style="margin-top:8px;">A monthly collection of our activities.</p>
+        </div>
+        <a class="link-arrow" href="reports.html">All Chapter Reports <span class="a">→</span></a>
+      </div>
+      <div class="chapter-feature reveal">
+        <div class="cf-image"><img src="assets/photos/hero-jump-cover.jpg" alt="MEDWELL Club Wellness Retreat participants at KIE Campus, August 2026."></div>
+        <div class="cf-text">
+          <div><span class="cf-num">MEDWELL / 01</span><div class="cf-month">AUGUST 2026</div></div>
+          <p class="cf-motif">Pause. Reconnect. Reflect.</p>
+          <div><div class="cf-title">Chapter Report</div><p class="cf-theme">Wellness Retreat · How to Prioritize Self-Care in Medical Education</p></div>
+          <p class="meta">23 August 2026 · KIE Campus · 16 medical students</p>
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <a class="link-arrow" href="august-2026-chapter-report.html">Read Chapter Report <span class="a">→</span></a>
+            <a class="link-arrow" href="assets/reports/MEDWELL-August-2026-Chapter-Report.pdf" download>Download Chapter Report <span class="a">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section class="section-tight">
+    <div class="wrap">
+      <span class="eyebrow eyebrow-heading">What MEDWELL Club Does</span>
+      <div style="margin-top:28px;">
+        <div class="cat-row reveal">
+          <span class="cat-index">01</span>
+          <span class="cat-name">Move</span>
+          <span class="cat-desc">Sports, stretching and physical wellbeing.</span>
+        </div>
+        <div class="cat-row reveal">
+          <span class="cat-index">02</span>
+          <span class="cat-name">Connect</span>
+          <span class="cat-desc">Peer connection, community and shared reflection.</span>
+        </div>
+        <div class="cat-row reveal">
+          <span class="cat-index">03</span>
+          <span class="cat-name">Reflect</span>
+          <span class="cat-desc">Mental, emotional, spiritual and personal wellbeing.</span>
+        </div>
+        <div class="cat-row reveal">
+          <span class="cat-index">04</span>
+          <span class="cat-name">Create</span>
+          <span class="cat-desc">Interests, talents and identity beyond medicine.</span>
+        </div>
+        <div class="cat-row reveal">
+          <span class="cat-index">05</span>
+          <span class="cat-name">Learn</span>
+          <span class="cat-desc">Medical education, self-care and professional wellbeing.</span>
+        </div>
+        <div class="cat-row reveal">
+          <span class="cat-index">06</span>
+          <span class="cat-name">Research</span>
+          <span class="cat-desc">Research for wellness-related evidence, learning and inquiry.</span>
+        </div>
+        <div class="cat-row reveal">
+          <span class="cat-index">07</span>
+          <span class="cat-name">Advocate</span>
+          <span class="cat-desc">Advocate for healthier medical education and healthier healthcare professionals.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTRIBUTORS -->
+  <section class="section-tight" id="our-media" style="background:var(--green-wash);">
+    <div class="wrap">
+      <span class="eyebrow eyebrow-heading">We are Contributors to:</span>
+      <div class="contributors-grid">
+        <article class="contributor">
+          <span class="contributor-kicker"><span class="n">01</span> Health Media Platform</span>
+          <h3 class="contributor-name">Medwell Health Magazine</h3>
+          <p class="contributor-tagline">Africa's Leading Youth-Driven Multilingual Health Media Platform.</p>
+          <a class="contributor-link" href="https://www.medwellnews.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Medwell Health Magazine (opens in a new tab)">medwellnews.com <span class="ext-icon" aria-hidden="true">↗</span></a>
+        </article>
+        <div class="contributors-divider" aria-hidden="true"></div>
+        <article class="contributor">
+          <span class="contributor-kicker"><span class="n">02</span> Podcast</span>
+          <h3 class="contributor-name">Medwell Podcast</h3>
+          <p class="contributor-desc">Welcome to Medwell Podcast. We break down the topics that matter most, wellness, first aid, sexual and reproductive health, and the biggest trends in health news, so you always know what's real, what's helpful, and what's new. Empowering you to live smarter, healthier and more confidently.</p>
+          <a class="contributor-link" href="https://www.youtube.com/@THEMEDWELLPODCAST" target="_blank" rel="noopener noreferrer" aria-label="Watch Medwell Podcast on YouTube (opens in a new tab)">YouTube · @THEMEDWELLPODCAST <span class="ext-icon" aria-hidden="true">↗</span></a>
+        </article>
+      </div>
+      <p class="contributors-closing">Our Medwell Club family volunteers as writers, editorial team members, hosts and speakers on these health media platforms.</p>
+    </div>
+  </section>
+
+  <!-- QUOTE SLIDER -->
+  <section class="quote-slider">
+    <div class="quote-slider-viewport">
+      <div class="quote-track" id="quote-track">
+        <div class="quote-slide">
+          <div class="wrap">
+            <span class="qs-mark" aria-hidden="true">&ldquo;</span>
+            <blockquote>Healthcare providers cannot consistently give what they do not have. Caring for oneself is part of becoming capable of caring for others sustainably.</blockquote>
+            <div class="qs-attribution">
+              <img class="qs-photo" src="assets/photos/quote-dr-gaston.jpg" alt="Dr. Gaston Nyirigira" loading="lazy">
+              <span class="qs-divider" aria-hidden="true"></span>
+              <div class="qs-meta">
+                <span class="qs-name">Dr. Gaston Nyirigira</span>
+                <span class="qs-role">Senior Consultant Anesthesiologist &amp; Pain Specialist, King Faisal Hospital Rwanda</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="quote-slide">
+          <div class="wrap">
+            <span class="qs-mark" aria-hidden="true">&ldquo;</span>
+            <blockquote>According to Africa CDC, Africa bears more than a quarter of the global disease burden while accounting for only about 3% of the global health workforce. In a system carrying this burden, burnout isn&rsquo;t a badge of honor. It is associated with increased patient-safety risks and medical errors, reduced job satisfaction and poor retention.</blockquote>
+            <div class="qs-attribution">
+              <img class="qs-photo" src="assets/photos/quote-bonheur.jpg" alt="Bonheur Mwizerwa" loading="lazy">
+              <span class="qs-divider" aria-hidden="true"></span>
+              <div class="qs-meta">
+                <span class="qs-name">Bonheur Mwizerwa</span>
+                <span class="qs-role">MEDWELL Club Coordinator</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="quote-dots" id="quote-dots" aria-hidden="true"></div>
+    </div>
+  </section>
+  <div class="quote-secondary">
+    <div class="wrap">
+      <p>We can't pour from an empty cup,<br>Healthcare Providers deserve care too.</p>
+    </div>
+  </div>
+
+  <!-- OUR PARTNERS -->
+  <section class="partners-section" aria-labelledby="partners-title">
+    <div class="wrap">
+      <span class="eyebrow eyebrow-heading" id="partners-title">Our Partners</span>
+      <div class="partners-row">
+        <div class="partner-logo"><img src="assets/logos/medwell-logo.png" alt="MEDWELL Initiative"></div>
+        <span class="partners-divider" aria-hidden="true"></span>
+        <div class="partner-logo"><img src="assets/logos/imegh-logo.png" alt="IMEGH Health"></div>
+        <span class="partners-divider" aria-hidden="true"></span>
+        <div class="partner-logo partner-logo--medsar"><img src="assets/logos/medsar-logo.png" alt="Medical Students' Association of Rwanda (MEDSAR)"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GET INVOLVED -->
+  <section class="involve-section" id="get-involved" aria-labelledby="involve-title">
+    <div class="wrap involve-grid">
+      <div class="involve-intro reveal">
+        <span class="eyebrow" id="involve-title">Get Involved</span>
+        <h2 class="involve-heading">Join us. Support us. Belong to MEDWELL Club.</h2>
+        <p class="involve-lede">There's a place in MEDWELL Club at every stage of the journey, as a student, a practicing professional, or simply someone who believes healthcare providers deserve care too.</p>
+        <div class="involve-cta">
+          <a class="btn btn-ghost-light" href="#get-involved" data-open-involve>Get Involved</a>
+          <a class="link-arrow on-dark" href="reports.html">Read Chapter Reports <span class="a">→</span></a>
+        </div>
+      </div>
+      <div class="involve-ways reveal">
+        <button type="button" class="involve-row" data-open-involve data-role="students">
+          <span class="involve-num">01</span>
+          <span class="involve-text">
+            <span class="involve-label">Students</span>
+            <span class="involve-desc">Medical and health-sciences students building healthier habits together.</span>
+          </span>
+          <span class="a" aria-hidden="true">→</span>
+        </button>
+        <button type="button" class="involve-row" data-open-involve data-role="professionals">
+          <span class="involve-num">02</span>
+          <span class="involve-text">
+            <span class="involve-label">Professionals</span>
+            <span class="involve-desc">Doctors and healthcare professionals sharing time, mentorship and expertise.</span>
+          </span>
+          <span class="a" aria-hidden="true">→</span>
+        </button>
+        <button type="button" class="involve-row" data-open-involve data-role="supporters">
+          <span class="involve-num">03</span>
+          <span class="involve-text">
+            <span class="involve-label">Supporters</span>
+            <span class="involve-desc">Donors and contributors backing a healthier culture of medical education.</span>
+          </span>
+          <span class="a" aria-hidden="true">→</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">MEDWELL CLUB</div>
+        <p class="footer-statement">The people caring for the sick deserve care too. A living archive of MEDWELL Club's journey toward a healthier culture of medical education.</p>
+        <div class="footer-social">
+          <span class="social-label">Follow us</span>
+          <div class="social-icons">
+            <a href="https://x.com/medwell_medsar" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="MEDWELL Club on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+            <a href="https://www.instagram.com/medwell250/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="MEDWELL Club on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.012-3.584.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM12 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+          <a href="https://www.youtube.com/@THEMEDWELLPODCAST" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="MEDWELL Club on YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23.498 6.186a2.994 2.994 0 0 0-2.106-2.117C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.392.524A2.994 2.994 0 0 0 .502 6.186 31.26 31.26 0 0 0 0 12a31.26 31.26 0 0 0 .502 5.814 2.994 2.994 0 0 0 2.106 2.117c1.887.524 9.392.524 9.392.524s7.505 0 9.392-.524a2.994 2.994 0 0 0 2.106-2.117A31.26 31.26 0 0 0 24 12a31.26 31.26 0 0 0-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="reports.html">Chapter Reports</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Organization</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="#get-involved" data-open-involve>Join MEDWELL Club</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Latest Report</h4>
+        <ul><li><a href="august-2026-chapter-report.html">August 2026 Chapter Report</a></li></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 MEDWELL CLUB. Wellbeing for the people caring for the sick.</span>
+      <span>University of Rwanda</span>
+    </div>
+  </div>
+</footer>
+
+<script src="content/data.js"></script>
+<script src="js/nav.js"></script>
+<script>
+/* Quote slider: one-directional infinite slide (never steps backward) */
+(function(){
+  var track = document.getElementById('quote-track');
+  if (!track) return;
+  var slides = Array.prototype.slice.call(track.children);
+  if (slides.length < 2) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  /* Clone the first slide and append it, so the forward slide from the
+     last real quote lands on a visual duplicate of quote 1. We then snap
+     back to the real quote 1 instantly (no transition), so the loop reads
+     as continuous forward motion, never a backward step. */
+  var clone = slides[0].cloneNode(true);
+  clone.setAttribute('aria-hidden', 'true');
+  track.appendChild(clone);
+  var total = slides.length + 1;
+  track.style.width = (total * 100) + '%';
+  Array.prototype.forEach.call(track.children, function (slide) {
+    slide.style.flex = '0 0 ' + (100 / total) + '%';
+    slide.style.width = (100 / total) + '%';
+  });
+
+  var dotsWrap = document.getElementById('quote-dots');
+  var dots = [];
+  if (dotsWrap) {
+    slides.forEach(function (_, i) {
+      var d = document.createElement('span');
+      d.className = 'quote-dot' + (i === 0 ? ' active' : '');
+      dotsWrap.appendChild(d);
+      dots.push(d);
+    });
+  }
+
+  var TRANSITION_MS = 1200;  /* subtle slide transition, not the display time */
+  var HOLD_MS = 7000;       /* each slide stays fully visible for 7 seconds */
+  var index = 0;
+  var timer = null;
+  var paused = false;
+
+  function setDot(i) {
+    if (!dots.length) return;
+    dots.forEach(function (d) { d.classList.remove('active'); });
+    dots[i % slides.length].classList.add('active');
+  }
+
+  function advance() {
+    index++;
+    track.style.transition = 'transform ' + TRANSITION_MS + 'ms cubic-bezier(0.65,0,0.35,1)';
+    track.style.transform = 'translateX(-' + (index * (100 / total)) + '%)';
+    setDot(index % slides.length);
+  }
+
+  /* Schedule the next advance HOLD_MS after the current slide has actually
+     settled (rather than on a fixed setInterval), so the pause after the
+     instant loop-reset lasts exactly as long as every other pause. */
+  function scheduleNext() {
+    if (paused) return;
+    timer = setTimeout(advance, HOLD_MS);
+  }
+
+  track.addEventListener('transitionend', function (e) {
+    if (e.propertyName !== 'transform') return;
+    if (index === slides.length) {
+      track.style.transition = 'none';
+      index = 0;
+      track.style.transform = 'translateX(0%)';
+      setDot(0);
+      track.offsetHeight; /* force reflow before re-enabling transitions */
+    }
+    scheduleNext();
+  });
+
+  function start() { paused = false; scheduleNext(); }
+  function stop() { paused = true; clearTimeout(timer); }
+
+  scheduleNext();
+  var section = track.closest('.quote-slider');
+  if (section) {
+    section.addEventListener('mouseenter', stop);
+    section.addEventListener('mouseleave', start);
+  }
+})();
+</script>
+
+<!-- GET INVOLVED MODAL -->
+<div class="gi-modal" id="involve-modal" aria-hidden="true">
+  <div class="gi-modal-backdrop" data-close-involve></div>
+  <div class="gi-modal-panel" role="dialog" aria-modal="true" aria-labelledby="gi-modal-title">
+    <button class="gi-modal-close" type="button" data-close-involve aria-label="Close">✕</button>
+
+    <div class="gi-step" data-gi-step="ways">
+      <span class="eyebrow" style="color:var(--green-deep);">Get Involved</span>
+      <h2 id="gi-modal-title" class="gi-modal-heading">Join us. Support us. Belong to MEDWELL Club.</h2>
+      <p class="gi-modal-lede">There's a place in MEDWELL Club at every stage of the journey, as a student, a practicing professional, or simply someone who believes healthcare providers deserve care too.</p>
+      <div class="gi-modal-ways">
+        <button class="gi-way" type="button" data-gi-role="students">
+          <span class="gi-way-num">01</span>
+          <span><span class="gi-way-label">Students</span><span class="gi-way-desc">Medical and health-sciences students building healthier habits together.</span></span>
+          <span class="gi-way-arrow" aria-hidden="true">→</span>
+        </button>
+        <button class="gi-way" type="button" data-gi-role="professionals">
+          <span class="gi-way-num">02</span>
+          <span><span class="gi-way-label">Professionals</span><span class="gi-way-desc">Doctors and healthcare professionals sharing time, mentorship and expertise.</span></span>
+          <span class="gi-way-arrow" aria-hidden="true">→</span>
+        </button>
+        <button class="gi-way" type="button" data-gi-role="supporters">
+          <span class="gi-way-num">03</span>
+          <span><span class="gi-way-label">Supporters</span><span class="gi-way-desc">Donors and contributors backing a healthier culture of medical education.</span></span>
+          <span class="gi-way-arrow" aria-hidden="true">→</span>
+        </button>
+      </div>
+      <div class="gi-modal-cta">
+        <button class="btn btn-solid" type="button" data-gi-role="general">Email Us</button>
+        <a class="link-arrow" href="reports.html">Read Chapter Reports <span class="a">→</span></a>
+      </div>
+    </div>
+
+    <div class="gi-step" data-gi-step="next" hidden>
+      <button class="gi-back" type="button" data-gi-back><span aria-hidden="true">←</span> Back</button>
+      <span class="eyebrow" style="color:var(--green-deep);">Get Involved — <span data-gi-role-eyebrow>Students</span></span>
+      <h2 id="gi-modal-title-next" class="gi-modal-heading" data-gi-role-heading>Get involved as a student.</h2>
+      <p class="gi-modal-lede" data-gi-role-lede>Join the medical and health-sciences students building healthier habits together.</p>
+      <div class="gi-next-actions">
+        <a class="gi-next-action" data-gi-mailto href="mailto:mwizerwabonheur45@gmail.com">
+          <span class="gi-next-action-icon" aria-hidden="true">✉</span>
+          <span><span class="gi-next-action-label">Email us</span><span class="gi-next-action-desc">Opens your email app with a message ready to personalize.</span></span>
+          <span class="gi-way-arrow" aria-hidden="true">→</span>
+        </a>
+        <button class="gi-next-action" type="button" data-gi-copy>
+          <span class="gi-next-action-icon" aria-hidden="true">⧉</span>
+          <span><span class="gi-next-action-label" data-gi-copy-label>Copy our email address</span><span class="gi-next-action-desc">mwizerwabonheur45@gmail.com</span></span>
+          <span class="gi-way-arrow" aria-hidden="true">→</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
