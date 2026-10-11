@@ -23,7 +23,8 @@ var MEDWELL_CONTENT = {
       venue: "Kigali Car Free Day",
       participants: "Africa HealthTech Summit #AHTS5",
       cover: "assets/photos/sept-cfd-team-banner-2x.jpg",
-      readUrl: "september-2026-chapter-report.html"
+      readUrl: "september-2026-chapter-report.html",
+      pdfUrl: "assets/reports/MEDWELL-September-2026-Chapter-Report.pdf"
     },
     {
       id: "august-2026-chapter-report",
